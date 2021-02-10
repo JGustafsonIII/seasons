@@ -1,23 +1,23 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 class App extends React.Component {
-  constructor(props) {
-    super(props)
+  state = { lat: null, errorMessage: '' };
 
-    this.state = { lat: null, errorMessage: '' }
-
+  componentDidMount() {
+    // Prompts the user for the location
     window.navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.setState({ lat: position.coords.latitude })
-      },
-      (err) => {
-        this.setState({ errorMessage: err.message })
-      }
-    )
+      // If the user accepts then it will update the latitude
+      (position) => this.setState({ lat: position.coords.latitude }),
+      // If the user denies then the error message will be updated
+      (err) => this.setState({ errorMessage: err.message })
+    );
   }
 
-  // React says we have to define render!!
+  componentDidUpdate() {
+    console.log('My component was just updated.');
+  }
+
   render() {
     return (
       <div>
@@ -25,8 +25,8 @@ class App extends React.Component {
         <br />
         Error: {this.state.errorMessage}
       </div>
-    )
+    );
   }
 }
 
-ReactDOM.render(<App />, document.querySelector('#root'))
+ReactDOM.render(<App />, document.querySelector('#root'));
